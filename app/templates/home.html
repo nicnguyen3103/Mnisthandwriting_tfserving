@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MNIST Fansipan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+<body>
+
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://coderschool.vn">
+                <img src="static/images/coderschool-logo.png" alt="Bulma: Free, open source, & modern CSS framework based on Flexbox" width="112" height="28">
+                </a>
+            
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                </a>
+            </div>
+        </nav>
+    
+    <h1>MNIST Fansipan 2019</h1>
+
+    <canvas id="canvas" width="256" height="256" style="border:5px solid;"></canvas>
+    <div>
+        <input class="button is-primary" type="submit" id="myButton" value="Predict"/>
+        <input class="button is-success" type="submit" id="clearButton" value="Clear"/>
+    </div>
+
+    <div>
+        <h1 id='result'></h1>
+    </div>
+
+    <script src="static/jquery-3.4.1.min.js"></script>
+    <script src="static/index.js"></script>
+    <script type="text/javascript">
+        $("#myButton").click(function(){
+            $('#result').text('  Predicting...');
+            var $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
+            var canvasObj = document.getElementById("canvas");
+            var img = canvasObj.toDataURL('image/jpeg');
+            $.ajax({
+                type: "POST",
+                url: $SCRIPT_ROOT + "/upload/",
+                data: img,
+                success: function(data){
+                    $('#result').text('Predicted Output: ' + data);
+                }
+            });
+        });
+</script>
+</body>
+</html>
